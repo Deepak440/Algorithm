@@ -15,30 +15,51 @@ void Display_array(int arr[] , int n)
     cout << "\n";
 }
 
-void swap(int *a ,int *b)
+void Merge(int A[] ,int l ,int mid , int h)
 {
-	int temp;
-	temp =  *a;
-	*a = *b;
-	*b = temp;
-}
+	int i = l,j = mid + 1,k = l;
+	int B[100];
 
-// OPtimised
-
-void Bubble_sort(int arr[] , int n)
-{
-	for(int i = 0;  i < n-1; i++)
+	while(i <= mid && j <=h)
 	{
-		for(int j = 0; j < n-i -1; j++)
+		if(A[i] < A[j])
 		{
-			if(arr[j] > arr[j+1])
-			{
-				swap(&arr[j] , &arr[j +1]);
-			}
+			B[k++] = A[i++];
 		}
+		else
+		{
+			B[k++] = A[j++];
+		}
+	}
+	for(; i <= mid; i++)
+	{
+		B[k++] = A[i];
+	}
+	for( ; j <= h; j ++)
+	{
+		B[k++] = A[j];
+	}
+
+	for(i = l; i <= h; i++)
+	{
+		A[i] = B[i];
 	}
 }
 
+
+
+void Merge_sort(int arr[] ,int l ,int h)
+{
+	int mid;
+	if(l < h)
+	{
+		mid =  (l + h)/2;
+		Merge_sort(arr ,l ,mid);
+		Merge_sort(arr ,mid + 1 ,h);
+		Merge(arr ,l ,mid ,h);
+
+	}
+}
 int main()
 {
 	int arr[] = {8 ,5 ,7, 3 ,2};
@@ -49,7 +70,7 @@ int main()
 
 
     cout << "Sorted array\n";
-    Bubble_sort(arr , n);
+    Merge_sort(arr ,0, n-1);
 
     Display_array(arr , n);
 
